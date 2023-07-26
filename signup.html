@@ -121,11 +121,6 @@
             return true;
         });
     });
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-    if (error === '1') {
-        alert('User with same username or email exist..');
-        window.history.replaceState({}, document.title, '/signup');
-    }
 </script>
+
 </html>

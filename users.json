@@ -1,16 +1,1 @@
-[
-    {
-        "username": "n",
-        "password": "n"
-    },
-    {
-        "username": "user",
-        "password": "user"
-    },
-    {
-        "username": "ayusham001",
-        "password": "a",
-        "name": "Ayush Mishra",
-        "email": "ayush.info.dev@gmail.com"
-    }
-]
+[{"username":"n","password":"n"},{"username":"user","password":"user"},{"username":"ayusham001","password":"a","name":"Ayush Mishra","email":"ayush.info.dev@gmail.com"},{"username":"n","password":"a","name":"Ayush Mishra","email":"ayush.info.dev@gmail.com"},{"username":"bdbdfbdfbdfbdb","password":"a","name":"bbdbdbdfbd","email":"dbfbdfbdfbdb@gmail.com"}]
