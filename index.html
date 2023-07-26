@@ -16,7 +16,6 @@
             background-color: #333;
             padding: 10px 0;
             display: flex;
-            justify-content: space-between;
         }
 
         .navbar a {
@@ -116,33 +115,21 @@
             justify-content: space-between;
             align-items: center;
         }
-        .username{
-            color: #f0f0f0;
-            margin-right: 30px;
-        }
     </style>
 </head>
 
 <body>
-    <!-- Other content for logged-in users -->
     <nav class="navbar">
-        <div>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/">Todo</a>
-            <a href="/logout">Log-out</a>
-        </div>
-        <div class="username">
-            Welcome, {{name}}!
-        </div>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/">Todo</a>
     </nav>
     <div class="container">
         <h1>Ultimate To-Do List</h1>
         <div class="task-container">
             <div class="tasks">
-                <p style="margin: 0; padding: 0;text-decoration: underline; font-size: larger;text-align: center;">
-                    Tasks</p>
+                <p style="margin: 0; padding: 0;text-decoration: underline; font-size: larger;text-align: center;">Tasks</p>
                 <div class="task">
                 </div>
             </div>
@@ -161,6 +148,7 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 
