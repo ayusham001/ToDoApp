@@ -1,28 +1,18 @@
 [
     {
-        "username": "n",
-        "password": "n"
-    },
-    {
-        "username": "user",
-        "password": "user"
-    },
-    {
         "username": "ayusham001",
         "password": "a",
         "name": "Ayush Mishra",
-        "email": "ayush.info.dev@gmail.com"
-    },
-    {
-        "username": "s",
-        "password": "w",
-        "name": "Ayush Mishra",
-        "email": "ayush.io.dev@gmail.com"
-    },
-    {
-        "username": "ns",
-        "password": "e",
-        "name": "Ayush ",
-        "email": ".info.dev@gmail.com"
+        "email": "ayush.info.dev@gmail.com",
+        "pic": {
+            "fieldname": "pic",
+            "originalname": "me.png",
+            "encoding": "7bit",
+            "mimetype": "image/png",
+            "destination": "uploads/",
+            "filename": "29ca12fa5a67997d27206ae201ac0b1e",
+            "path": "uploads\\29ca12fa5a67997d27206ae201ac0b1e",
+            "size": 244159
+        }
     }
 ]

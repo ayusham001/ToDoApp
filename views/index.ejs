@@ -12,24 +12,6 @@
             padding: 0;
         }
 
-        .navbar {
-            background-color: #333;
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .navbar a {
-            padding: 0;
-            margin: 0 15px;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-
         .container {
             width: fit-content;
             margin: 50px auto;
@@ -116,28 +98,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        .username{
-            color: #f0f0f0;
-            margin-right: 30px;
-        }
     </style>
 </head>
 
 <body>
     <!-- Other content for logged-in users -->
-    <nav class="navbar">
-        <div>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/">Todo</a>
-            <a href="/logout">Log-out</a>
-        </div>
-        
-        <div class="username">
-            Welcome, <%= name %>
-        </div>
-    </nav>
+    <%- include('header') %>
     <div class="container">
         <h1>Ultimate To-Do List</h1>
         <div class="task-container">

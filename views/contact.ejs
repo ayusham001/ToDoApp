@@ -11,25 +11,6 @@
             margin: 0;
             padding: 0;
         }
-
-        .navbar {
-            background-color: #333;
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .navbar a {
-            padding: 0;
-            margin: 0 15px;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-
         .container {
             max-width: 400px;
             margin: 50px auto;
@@ -39,41 +20,27 @@
             text-align: center;
         }
 
-        .container a{
+        .container a {
             color: rgb(102, 52, 156);
             text-decoration: none;
         }
-        .container a:hover{
+
+        .container a:hover {
             cursor: pointer;
             text-decoration: underline;
-        }
-
-        .username{
-            color: #f0f0f0;
-            margin-right: 30px;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/">Todo</a>
-            <a href="/logout">Log-out</a>
+
+    <%- include('header') %>
+        <div class="container">
+            <h1>Contact</h1>
+            <p>
+                Contact me here: <a href="mailto:ayusham001@gmal.com">📩mail</a>
+            </p>
         </div>
-        <div class="username">
-            Welcome, <%= name %>
-        </div>
-    </nav>
-    <div class="container">
-        <h1>Contact</h1>
-        <p>
-            Contact me here: <a href="mailto:ayusham001@gmal.com">📩mail</a>
-        </p>
-    </div>
 </body>
 
 </html>

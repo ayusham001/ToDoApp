@@ -3,6 +3,8 @@ const express = require('express');
 const session = require('express-session');
 const app = express();
 const fs = require('fs');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -13,7 +15,7 @@ app.use(
     saveUninitialized: true,
   })
 )
-
+app.use(express.static('uploads'))
 
 app.set('view engine', 'ejs');
 
@@ -74,7 +76,8 @@ app.get('/', (req, res) => {
     return;
   }
   const user=req.session.user.name
-  res.render("index",{name:user})
+  const pic=req.session.user.pic.filename
+  res.render("index",{name:user,pic:pic})
 });
 
 
@@ -84,7 +87,8 @@ app.get('/about', (req, res) => {
     return;
   }
   const user=req.session.user.name
-  res.render("about",{name:user})
+  const pic=req.session.user.pic.filename
+  res.render("about",{name:user,pic:pic})
 });
 
 app.get('/contact', (req, res) => {
@@ -93,7 +97,8 @@ app.get('/contact', (req, res) => {
     return;
   }
   const user=req.session.user.name
-  res.render("contact",{name:user})
+  const pic=req.session.user.pic.filename
+  res.render("contact",{name:user,pic:pic})
 });
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -108,7 +113,6 @@ app.post('/login', (req, res) => {
 
     const users = JSON.parse(data);
     const user = users.find((u) => u.username === username && u.password === password);
-
     if (user) {
       req.session.isLoggedIn = true;
       req.session.user = user;
@@ -140,8 +144,10 @@ app.get('/signup', (req, res) => {
 })
 
 
-app.post('/signup', (req, res) => {
+app.post('/signup',upload.single('pic'), (req, res) => {
   const { username, password, name, email } = req.body;
+  const pic =req.file;
+  console.log(req.file);
 
   // Read the users.json file to check for existing users
   fs.readFile('users.json', 'utf8', (err, data) => {
@@ -161,7 +167,7 @@ app.post('/signup', (req, res) => {
     }
 
     // If no user with the same username or email exists, proceed with registration
-    const newUser = { username, password, name, email };
+    const newUser = { username, password, name, email, pic };
     existingUsers.push(newUser);
 
     fs.writeFile('users.json', JSON.stringify(existingUsers), 'utf8', (err) => {
@@ -175,6 +181,7 @@ app.post('/signup', (req, res) => {
     });
   });
 });
+
 
 
 app.get('/script.js', (req, res) => {
