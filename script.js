@@ -48,7 +48,7 @@ document.getElementById("taskForm").addEventListener("submit", (e) => {
         .then((data) => {
             console.log("Task submitted successfully:", data);
             // Fetch and display updated task list
-            fetchAndDisplayTasks();
+            fetchAndDisplayTasks(); form.reset();
         })
         .catch((error) => {
             console.error("Error submitting task:", error);
