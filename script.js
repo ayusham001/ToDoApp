@@ -35,7 +35,8 @@ document.getElementById("taskForm").addEventListener("submit", (e) => {
 
     const taskInput = document.getElementById("ip").value;
     const imageInput = document.getElementById("task_pic").files[0];
-
+    document.getElementById("ip").value='';
+    document.getElementById("task_pic").value = ''; 
     const formData = new FormData();
     formData.append("task", taskInput);
     formData.append("image", imageInput);
@@ -48,7 +49,7 @@ document.getElementById("taskForm").addEventListener("submit", (e) => {
         .then((data) => {
             console.log("Task submitted successfully:", data);
             // Fetch and display updated task list
-            fetchAndDisplayTasks(); form.reset();
+            fetchAndDisplayTasks();
         })
         .catch((error) => {
             console.error("Error submitting task:", error);
