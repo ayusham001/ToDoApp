@@ -5,6 +5,18 @@ const app = express();
 const fs = require('fs');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
+const path = require('path')
+
+app.use(express.static('public'))
+const taskImageStorage = multer.diskStorage({
+  destination: 'public/',
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
+  },
+});
+
+const taskImageUpload = multer({ storage: taskImageStorage });
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -48,6 +60,7 @@ app.put('/todo/update', (req, res) => {
   });
 });
 
+
 app.delete('/todo/delete', (req, res) => {
   const todoToDelete = req.body;
 
@@ -57,18 +70,41 @@ app.delete('/todo/delete', (req, res) => {
       return;
     }
 
-    // Filter out the task to be deleted
-    const filteredData = data.filter((todo) => todo.text !== todoToDelete.text);
+    // Find the todo data that needs to be deleted
+    const todoIndex = data.findIndex((todo) => todo.text === todoToDelete.text);
+    if (todoIndex === -1) {
+      res.status(404).send("Todo not found");
+      return;
+    }
 
-    fs.writeFile("data.json", JSON.stringify(filteredData), function (err) {
+    // Retrieve the image filename from the todo data
+    const imageFilename = data[todoIndex].image;
+
+    // Remove the todo from the data array
+    const deletedTodo = data.splice(todoIndex, 1)[0];
+
+    fs.writeFile("data.json", JSON.stringify(data), function (err) {
       if (err) {
         res.status(500).send("Error deleting todo");
         return;
       }
+
+      // If an image exists, delete the image file from the 'public' folder
+      if (imageFilename) {
+        const imagePath = path.join(__dirname, 'public', imageFilename);
+        try {
+          fs.unlinkSync(imagePath);
+          console.log("Image deleted:", imageFilename);
+        } catch (err) {
+          console.error("Error deleting image:", err);
+        }
+      }
+
       res.status(200).send("Todo deleted successfully");
     });
   });
 });
+
 
 app.get('/', (req, res) => {
   if (!req.session.isLoggedIn) {
@@ -134,7 +170,7 @@ app.get('/logout', (req, res) => {
       console.log(er)
     }
     else {
-      res.render("login")
+      res.render("login",{error:null})
     }
   })
 })
@@ -189,10 +225,6 @@ app.get('/script.js', (req, res) => {
 });
 
 app.get("/todo-data", function (req, res) {
-  if (!req.session.isLoggedIn) {
-    res.status(401).send('error')
-    return;
-  }
 
   readAllTodos(function (err, data) {
     if (err) {
@@ -200,19 +232,28 @@ app.get("/todo-data", function (req, res) {
       return;
     }
 
-    //res.status(200).send(JSON.stringify(data));
-    res.status(200).json(data);
+    res.status(200).send(JSON?.stringify(data));
+    // res.status(200).json(data);
   });
 });
 
-app.post('/todo', (req, res) => {
-  saveTodoInFile(req.body, function (err) {
+app.post("/todo", taskImageUpload.single("image"), (req, res) => {
+  const taskInput = req.body.task;
+  const imageFilePath = req.file ? req.file.filename : null; // Use filename instead of path
+
+  const todo = {
+    text: taskInput,
+    image: imageFilePath,
+    status: "in progress",
+  };
+
+  saveTodoInFile(todo, function (err) {
     if (err) {
-      res.status(500).send("error");
+      res.status(500).json({ error: "Error saving task" });
       return;
     }
 
-    res.status(200).send("success");
+    res.status(200).json({ message: "Task submitted successfully" }); // Send the correct response
   });
 });
 
@@ -231,7 +272,7 @@ function saveTodoInFile(todo, callback) {
         return;
       }
 
-      callback(null);
+      callback(null); // Pass null as the second argument to indicate success
     });
   });
 }

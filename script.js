@@ -6,42 +6,53 @@ const cpass = document.getElementById('confirm-password');
 const form = document.getElementById('form');
 
 
-btn.addEventListener('click', () => {
-    const todotext = ip.value;
-    const priorityValue = prioritySelector.value;
-    console.log(todotext);
-    ip.value = '';
 
-    if (!todotext || !priorityValue) {
-        alert('Enter a ToDo or select priority');
-        return;
-    }
+function fetchAndDisplayTasks() {
+    fetch("/todo-data")
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Something went wrong with the request");
+            }
+        })
+        .then((todos) => {
+            const taskListDiv = document.getElementById("taskList");
+            taskListDiv.innerHTML = ""; // Clear the previous task list
 
-    const todo = {
-        text: todotext,
-        priority: priorityValue,
-        status: "in progress"
-    }
+            todos.forEach((todo) => {
+                showTodoInUI(todo);
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
-    fetch('/todo', {
-        method: "Post",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(todo),
-    }).then((response) => {
-        if (response.status === 200) {
-            // display todo in UI
-            showTodoInUI(todo);
-        }
-        else if (response.status === 401) {
-            window.location.href = '/login';
-            alert('Login first');
-        }
-        else {
-            alert("something weird happened");
-        }
-    }).catch((err) => { console.log(err) });
+
+document.getElementById("taskForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const taskInput = document.getElementById("ip").value;
+    const imageInput = document.getElementById("task_pic").files[0];
+
+    const formData = new FormData();
+    formData.append("task", taskInput);
+    formData.append("image", imageInput);
+
+    fetch("/todo", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Task submitted successfully:", data);
+            // Fetch and display updated task list
+            fetchAndDisplayTasks();
+        })
+        .catch((error) => {
+            console.error("Error submitting task:", error);
+        });
 });
 
 
@@ -81,36 +92,44 @@ function showTodoInUI(todo) {
     deleteButton.id = "delete";
 
     deleteButton.addEventListener("click", () => {
-        todoDiv.remove();
         fetch('/todo/delete', {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(todo),
-        }).then((response) => {
-            if (response.status === 200) {
-                console.log("Todo deleted successfully.");
-            } else {
-                console.log("Failed to delete todo.");
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // If the response status is in the range 200-299, it means success
+                    console.log("Todo deleted successfully.");
+                    // Remove the todoDiv from the DOM after the server successfully deletes the todo
+                    todoDiv.remove();
+                } else {
+                    console.log("Failed to delete todo.");
+                }
+            })
+            .catch((err) => {
+                console.error("Error deleting todo:", err);
+            });
     });
 
 
 
-    const priorityNode = document.createElement("span");
-    priorityNode.innerText = todo.priority;
-    priorityNode.style.color = 'red';
-
+    const imagediv = document.createElement("div");
+    imagediv.classList.add("imagediv");
+    const todoImageNode = document.createElement("img");
+    todoImageNode.src = todo.image;
+    todoImageNode.alt = todo.text; // Set alt text for accessibility
+    todoImageNode.classList.add("todo-image");
+    
     taskListDiv.appendChild(todoTextNode);
-    taskListDiv.appendChild(priorityNode);
+    imagediv.appendChild(todoImageNode);
     taskActionDiv.appendChild(checkboxInput);
     taskActionDiv.appendChild(deleteButton);
 
     todoDiv.appendChild(taskListDiv);
+    todoDiv.appendChild(imagediv);
     todoDiv.appendChild(taskActionDiv);
 
     // Assuming you have a container with class 'task-container' in your HTML
@@ -119,37 +138,39 @@ function showTodoInUI(todo) {
 }
 
 
+
 fetch("/todo-data")
-    .then(function (response) {
-        if (response.status === 200) {
+    .then((response) => {
+        if (response.ok) {
             return response.json();
-        } else if (response.status === 401) {
-            window.location.href = '/login';
-            alert('Login first');
         } else {
-            alert("something weird happened");
+            throw new Error("Something went wrong with the request");
         }
     })
-    .then(function (todos) {
-        todos.forEach(function (todo) {
+    .then((todos) => {
+        todos.forEach((todo) => {
             showTodoInUI(todo);
         });
+    })
+    .catch((err) => {
+        console.log(err);
     });
 
 function updateTodoStatus(todo) {
     fetch('/todo/update', {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(todo),
-    }).then((response) => {
-        if (response.status === 200) {
-            console.log("Todo status updated successfully.");
-        } else {
-            console.log("Failed to update todo status.");
-        }
-    }).catch((err) => {
-        console.log(err);
-    });
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to update todo status');
+            }
+            console.log('Todo status updated successfully.');
+        })
+        .catch((error) => {
+            console.error('Error updating todo status:', error);
+        });
 }
