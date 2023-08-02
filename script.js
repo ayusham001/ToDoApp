@@ -47,7 +47,7 @@ function showTodoInUI(todo) {
     todoTextNode.innerText = todo.text; // Corrected property name
     if (todo.status === "done") {
         todoTextNode.style.textDecoration = "line-through"; // Apply "line-through" style for completed tasks
-      }
+    }
 
     const taskActionDiv = document.createElement("div");
     taskActionDiv.classList.add("task-action");
@@ -57,14 +57,14 @@ function showTodoInUI(todo) {
     checkboxInput.checked = todo.status === "done"; // Set the checkbox state based on the todo status
 
     checkboxInput.addEventListener("change", () => {
-      todo.status = checkboxInput.checked ? "done" : "in progress"; // Update the status property based on checkbox state
-      updateTodoStatus(todo); // Send the updated todo to the server to save the status change
+        todo.status = checkboxInput.checked ? "done" : "in progress"; // Update the status property based on checkbox state
+        updateTodoStatus(todo); // Send the updated todo to the server to save the status change
 
-      if (checkboxInput.checked) {
-        todoTextNode.style.textDecoration = "line-through"; // Apply "line-through" style for completed tasks
-      } else {
-        todoTextNode.style.textDecoration = "none"; // Remove "line-through" style for in-progress tasks
-      }
+        if (checkboxInput.checked) {
+            todoTextNode.style.textDecoration = "line-through"; // Apply "line-through" style for completed tasks
+        } else {
+            todoTextNode.style.textDecoration = "none"; // Remove "line-through" style for in-progress tasks
+        }
     });
 
     const deleteButton = document.createElement("button");
@@ -89,12 +89,12 @@ function showTodoInUI(todo) {
             console.log(err);
         });
     });
-    
+
 
 
     const priorityNode = document.createElement("span");
     priorityNode.innerText = todo.priority;
-    priorityNode.style.color='red';
+    priorityNode.style.color = 'red';
 
     taskListDiv.appendChild(todoTextNode);
     taskListDiv.appendChild(priorityNode);
@@ -124,20 +124,20 @@ fetch("/todo-data")
         });
     });
 
-    function updateTodoStatus(todo) {
-        fetch('/todo/update', {
-          method: "PUT",
-          headers: {
+function updateTodoStatus(todo) {
+    fetch('/todo/update', {
+        method: "PUT",
+        headers: {
             "Content-Type": "application/json",
-          },
-          body: JSON.stringify(todo),
-        }).then((response) => {
-          if (response.status === 200) {
+        },
+        body: JSON.stringify(todo),
+    }).then((response) => {
+        if (response.status === 200) {
             console.log("Todo status updated successfully.");
-          } else {
+        } else {
             console.log("Failed to update todo status.");
-          }
-        }).catch((err) => {
-          console.log(err);
-        });
-    }
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+}
