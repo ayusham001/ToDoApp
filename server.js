@@ -8,6 +8,7 @@ const upload = multer({ dest: 'uploads/' })
 const path = require('path')
 
 app.use(express.static('public'))
+
 const taskImageStorage = multer.diskStorage({
   destination: 'public/',
   filename: (req, file, cb) => {
@@ -239,7 +240,7 @@ app.get("/todo-data", function (req, res) {
 
 app.post("/todo", taskImageUpload.single("image"), (req, res) => {
   const taskInput = req.body.task;
-  const imageFilePath = req.file ? req.file.filename : null; // Use filename instead of path
+  const imageFilePath = req.file ? req.file.filename : null; 
 
   const todo = {
     text: taskInput,
@@ -253,7 +254,7 @@ app.post("/todo", taskImageUpload.single("image"), (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "Task submitted successfully" }); // Send the correct response
+    res.status(200).json({ message: "Task submitted successfully" }); 
   });
 });
 
