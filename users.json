@@ -1,18 +1,1 @@
-[
-    {
-        "username": "ayusham001",
-        "password": "a",
-        "name": "Ayush Mishra",
-        "email": "ayuso.dev@gmail.com",
-        "pic": {
-            "fieldname": "pic",
-            "originalname": "Wbulb.png",
-            "encoding": "7bit",
-            "mimetype": "image/png",
-            "destination": "uploads/",
-            "filename": "65d9a369fa413ab4a8ddd9ff1149777a",
-            "path": "uploads\\65d9a369fa413ab4a8ddd9ff1149777a",
-            "size": 36037
-        }
-    }
-]
+[{"username":"ayusham001","password":"a","name":"Ayush Mishra","email":"ayuso.dev@gmail.com","pic":{"fieldname":"pic","originalname":"Wbulb.png","encoding":"7bit","mimetype":"image/png","destination":"uploads/","filename":"65d9a369fa413ab4a8ddd9ff1149777a","path":"uploads\\65d9a369fa413ab4a8ddd9ff1149777a","size":36037}},{"username":"po","password":"a","name":"admim","email":"ayppo.dev@gmail.com","pic":{"fieldname":"pic","originalname":"gfg.png","encoding":"7bit","mimetype":"image/png","destination":"uploads/","filename":"a8299922a9e2b5bd5c14f9f8f4bec3b9","path":"uploads\\a8299922a9e2b5bd5c14f9f8f4bec3b9","size":25440}}]

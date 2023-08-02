@@ -212,7 +212,7 @@ app.post('/signup',upload.single('pic'), (req, res) => {
       } else {
         console.log('User data saved successfully.');
         // Redirect to login page with a success message as a query parameter
-        res.render('login',{error:null});
+        res.render('login',{error:"Account created successfully!!!!"});
       }
     });
   });
