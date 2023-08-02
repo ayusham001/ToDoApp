@@ -4,8 +4,6 @@ const fs = require('fs');
 
 app.use(express.json())
 
-
-
 app.put('/todo/update', (req, res) => {
   const updatedTodo = req.body;
 
