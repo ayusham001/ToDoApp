@@ -1,18 +1,15 @@
-const { error } = require('console');
 const express = require('express');
 const session = require('express-session');
 const app = express();
 const fs = require('fs');
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: 'helloboss',
-    resave: false,
-    saveUninitialized: true,
-  })
-)
+app.use(express.json()) //Parse incoming HTTP request bodies with JSON data
+app.use(express.urlencoded({ extended: true })); //Parse incoming HTTP request bodies with URL-encoded data
+app.use(session({
+  secret: 'helloboss', // Required: A random and secure string used to sign the session identifier cookie.
+  resave: false, // Whether to save the session on every request only if it has been modified. Improves performance when set to false.
+  saveUninitialized: true, // Whether to create a new session if it is unmodified during a request. Useful for tracking visitors.
+}));
 
 
 app.set('view engine', 'ejs');
@@ -130,7 +127,7 @@ app.get('/logout', (req, res) => {
       console.log(er)
     }
     else {
-      res.render("login")
+      res.render("login",{error:null})
     }
   })
 })
@@ -170,7 +167,7 @@ app.post('/signup', (req, res) => {
       } else {
         console.log('User data saved successfully.');
         // Redirect to login page with a success message as a query parameter
-        res.render('login',{error:null});
+        res.render('login',{error:"Account created successfully!!!!"});
       }
     });
   });
