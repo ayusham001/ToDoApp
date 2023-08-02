@@ -3,18 +3,15 @@ const session = require('express-session');
 const app = express();
 const fs = require('fs');
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: 'helloboss',
-    resave: false,
-    saveUninitialized: true,
-  })
-)
+app.use(express.json()) //Parse incoming HTTP request bodies with JSON data
+app.use(express.urlencoded({ extended: true })); //Parse incoming HTTP request bodies with URL-encoded data
+app.use(session({
+  secret: 'helloboss', // Required: A random and secure string used to sign the session identifier cookie.
+  resave: false, // Whether to save the session on every request only if it has been modified. Improves performance when set to false.
+  saveUninitialized: true, // Whether to create a new session if it is unmodified during a request. Useful for tracking visitors.
+}));
 
 
-const users = [];
 
 app.put('/todo/update', (req, res) => {
   const updatedTodo = req.body;

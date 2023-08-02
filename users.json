@@ -1,16 +1,1 @@
-[
-    {
-        "username": "n",
-        "password": "n"
-    },
-    {
-        "username": "user",
-        "password": "user"
-    },
-    {
-        "username": "ayusham001",
-        "password": "a",
-        "name": "Ayush Mishra",
-        "email": "ayush.info.dev@gmail.com"
-    }
-]
+[{"username":"ayusham001","password":"a","name":"Ayush Mishra","email":"ayush.info.dev@gmail.com"}]
