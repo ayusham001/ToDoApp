@@ -174,7 +174,7 @@ app.post('/signup', (req, res) => {
   fs.readFile('users.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading users.json:', err);
-      res.redirect('/login');
+      res.redirect('/signup');
       return;
     }
 
@@ -185,7 +185,6 @@ app.post('/signup', (req, res) => {
     if (existingUser) {
       // If a user with the same username or email already exists, send an error response
       return res.redirect('/signup?error=1');
-      return;
     }
 
     // If no user with the same username or email exists, proceed with registration
