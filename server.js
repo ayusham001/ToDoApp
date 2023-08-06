@@ -124,7 +124,7 @@ app.get('/login', (req, res) => {
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.log(er)
+      console.log(err)
     }
     else {
       res.render("login",{error:null})
